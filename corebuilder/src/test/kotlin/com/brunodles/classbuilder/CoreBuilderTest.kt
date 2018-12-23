@@ -2,12 +2,21 @@ package com.brunodles.classbuilder
 
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.MatcherAssert.assertThat
+import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TemporaryFolder
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import java.io.File
 
 @RunWith(JUnit4::class)
 class CoreBuilderTest {
+
+    @Rule
+    @JvmField
+    val temporaryFolder = TemporaryFolder()
 
     @Test
     fun whenBuild_withClassNameOnly_shouldReturnEmptyClass() {
@@ -86,5 +95,26 @@ class CoreBuilderTest {
         }.build()
 
         assertThat(result, `is`("class_nested_3levels".loadResource()))
+    }
+
+    @Test
+    fun whenWrite_withClassNameOnly_shouldCreateFileOnRootFolder() {
+        CoreBuilder("EmptyClass")
+                .write(temporaryFolder.root)
+
+        val file = File(temporaryFolder.root, "EmptyClass.java")
+        assertTrue(file.exists())
+        assertEquals(file.readText(), "class_empty".loadResource())
+    }
+
+    @Test
+    fun whenWrite_withClassName_andPackage_shouldCreatePackageTree() {
+        CoreBuilder("DeepClass", packageName = "com.brunodles.classbuilders.corebuilder")
+                .write(temporaryFolder.root)
+
+        val packageFile = File(temporaryFolder.root, "com/brunodles/classbuilders/corebuilder")
+        val file = File(packageFile, "DeepClass.java")
+        assertTrue("File must exists",file.exists())
+        assertEquals(file.readText(), "class_deep".loadResource())
     }
 }

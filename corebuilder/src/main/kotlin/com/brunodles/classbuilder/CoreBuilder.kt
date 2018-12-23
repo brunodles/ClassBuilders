@@ -1,5 +1,6 @@
 package com.brunodles.classbuilder
 
+import java.io.File
 import java.lang.StringBuilder
 
 class CoreBuilder(
@@ -43,5 +44,16 @@ class CoreBuilder(
         val coreBuilder = CoreBuilder(name, modifiers = "static final")
         func?.invoke(coreBuilder)
         map[name] = coreBuilder.build()
+    }
+
+    fun write(rootDir: File) {
+        val classFile = if (packageName == null) {
+            File(rootDir, "$className.java")
+        } else {
+            val packageFile = File(rootDir, packageName.replace(Regex("\\."), "/"))
+            packageFile.mkdirs()
+            File(packageFile, "$className.java")
+        }
+        classFile.writeText(build())
     }
 }
