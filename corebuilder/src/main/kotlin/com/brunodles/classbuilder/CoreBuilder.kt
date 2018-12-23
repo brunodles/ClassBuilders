@@ -24,7 +24,7 @@ class CoreBuilder(
             builder.append("public class $className {\n")
         else
             builder.append("public $modifiers class $className {\n")
-        map.forEach { key, value ->
+        map.forEach { _, value ->
             value.lines().forEach {
                 builder.append("    ")
                         .append(it)
