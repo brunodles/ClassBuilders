@@ -1,0 +1,8 @@
+public class RootClass {
+    public static final class Level1 {
+        public static final class Level2 {
+            public static final class Level3 {
+            }
+        }
+    }
+}

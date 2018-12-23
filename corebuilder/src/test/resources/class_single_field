@@ -1,0 +1,3 @@
+public class SingleField {
+    public static final String NAME = "Bruce Wayne";
+}

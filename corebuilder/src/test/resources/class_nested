@@ -1,0 +1,4 @@
+public class RootClass {
+    public static final class Nested {
+    }
+}

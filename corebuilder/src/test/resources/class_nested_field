@@ -1,0 +1,5 @@
+public class RootClass {
+    public static final class Nested {
+        public static final String NAME = "Peter Parker";
+    }
+}
