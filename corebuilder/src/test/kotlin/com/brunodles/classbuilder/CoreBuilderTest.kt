@@ -27,6 +27,14 @@ class CoreBuilderTest {
     }
 
     @Test
+    fun whenBuild_withClassName_andBlankPackageName_shouldReturnEmptyClass() {
+        val result: String = CoreBuilder("EmptyClass", "")
+                .build()
+
+        assertThat(result, `is`("class_empty".loadResource()))
+    }
+
+    @Test
     fun whenBuild_withClassName_andPackage_shouldReturnEmptyClassWithPackage() {
         val result: String = CoreBuilder("ClassWithPackage", "packagename")
                 .build()
@@ -114,7 +122,7 @@ class CoreBuilderTest {
 
         val packageFile = File(temporaryFolder.root, "com/brunodles/classbuilders/corebuilder")
         val file = File(packageFile, "DeepClass.java")
-        assertTrue("File must exists",file.exists())
+        assertTrue("File must exists", file.exists())
         assertEquals(file.readText(), "class_deep".loadResource())
     }
 }

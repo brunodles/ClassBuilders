@@ -18,7 +18,7 @@ class CoreBuilder(
 
     fun build(): String {
         val builder = StringBuilder()
-        if (packageName != null)
+        if (packageName.isNullOrBlank().not())
             builder.append("package $packageName;\n")
         if (modifiers == null)
             builder.append("public class $className {\n")
