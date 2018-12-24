@@ -1,6 +1,6 @@
 package com.brunodles.testing
 
-fun String.loadResource(): String {
+fun String.readResource(): String {
     return ClassLoader.getSystemClassLoader()
             .getResource(this)
             .readText()
