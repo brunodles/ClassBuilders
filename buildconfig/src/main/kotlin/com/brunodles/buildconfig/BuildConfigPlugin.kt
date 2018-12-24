@@ -7,8 +7,8 @@ import org.gradle.api.plugins.JavaPluginConvention
 import org.gradle.api.tasks.SourceSet
 import java.io.File
 
-@AutoPlugin("buildconfig")
-class BuildConfigPlugin : Plugin<Project> {
+@AutoPlugin("buildconfig", "com.brunodles.buildconfig")
+open class BuildConfigPlugin : Plugin<Project> {
 
     companion object {
         @Suppress("unused")
@@ -17,7 +17,7 @@ class BuildConfigPlugin : Plugin<Project> {
         const val EXTENSION_NAME = "buildconfig"
         const val TASK_NAME = "generateBuildConfigClass"
         const val CLASS_NAME = "BuildConfig"
-        private const val GENERATED_PATH = "generated/source/javaBuildConfig"
+        const val GENERATED_PATH = "generated/source/javaBuildConfig"
 
         fun outputDir(project: Project): File =
                 File(project.buildDir, GENERATED_PATH)
@@ -30,20 +30,22 @@ class BuildConfigPlugin : Plugin<Project> {
     }
 
     private fun registerSourceSet(project: Project) {
-        val javaPluginConvention = project.convention.getPlugin(JavaPluginConvention::class.java)
-        val mainSourceSet = javaPluginConvention.sourceSets.getByName(SourceSet.MAIN_SOURCE_SET_NAME)
-        mainSourceSet.java {
-            it.srcDirs.add(outputDir(project))
+        project.convention.findPlugin(JavaPluginConvention::class.java)?.let { convention ->
+            val mainSourceSet = convention.sourceSets.getByName(SourceSet.MAIN_SOURCE_SET_NAME)
+            mainSourceSet.java {
+                it.srcDirs.add(outputDir(project))
+            }
         }
     }
 
     private fun createTask(project: Project) {
-        val buildConfigTask = project.tasks.create(TASK_NAME, BuildConfigTask::class.java)
-        val compileKotlin = project.tasks.findByName("compileKotlin")
-        if (compileKotlin != null)
-            compileKotlin.dependsOn.add(buildConfigTask)
+        val tasks = project.tasks
+        val buildConfigTask = tasks.create(TASK_NAME, BuildConfigTask::class.java)
+        val compileKotlin = tasks.findByName("compileKotlin")
+        if (compileKotlin == null)
+            tasks.getByPath("compileJava").dependsOn.add(buildConfigTask)
         else
-            project.tasks.getByName("compileJava").dependsOn.add(buildConfigTask)
+            compileKotlin.dependsOn.add(buildConfigTask)
     }
 
     private fun createExtension(project: Project) {

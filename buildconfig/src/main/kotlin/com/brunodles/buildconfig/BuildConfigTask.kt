@@ -3,7 +3,6 @@ package com.brunodles.buildconfig
 import com.brunodles.classbuilder.CoreBuilder
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.TaskAction
-import org.gradle.api.tasks.incremental.IncrementalTaskInputs
 
 open class BuildConfigTask : DefaultTask() {
 
@@ -16,7 +15,7 @@ open class BuildConfigTask : DefaultTask() {
 
     @Suppress("unused")
     @TaskAction
-    fun execute(inputs: IncrementalTaskInputs) {
+    fun createBuildConfig() {
         val output = BuildConfigPlugin.outputDir(project)
         val extension: BuildConfigExtension = project.extensions
                 .getByName(BuildConfigPlugin.EXTENSION_NAME) as BuildConfigExtension

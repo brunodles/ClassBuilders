@@ -3,6 +3,7 @@ package com.brunodles.buildconfig
 open class BuildConfigExtension {
 
     internal val configFields = mutableMapOf<String, Field>()
+    @JvmField
     var targetPackage: String = ""
 
     fun field(type: String, name: String, value: String) {
@@ -10,5 +11,5 @@ open class BuildConfigExtension {
         configFields[nameToUppercase] = Field(type, nameToUppercase, value)
     }
 
-    data class Field(val type: String, val name: String, val value: String)
+    class Field(val type: String, val name: String, val value: String)
 }

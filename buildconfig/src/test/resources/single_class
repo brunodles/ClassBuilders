@@ -1,0 +1,4 @@
+package com.brunodles;
+public class BuildConfig {
+    public static final String GAME = "Magic";
+}

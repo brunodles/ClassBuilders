@@ -1,0 +1,8 @@
+plugins {
+    id 'java'
+    id 'buildconfig' version '0.1.0'
+}
+buildconfig {
+    targetPackage = 'com.brunodles'
+    field "String", "GAME", '"Magic"'
+}

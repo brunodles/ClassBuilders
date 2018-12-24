@@ -1,5 +1,7 @@
 apply plugin: "kotlin"
-apply plugin: "net.ltgt.apt"
+apply plugin: 'java-gradle-plugin'
+apply plugin: "pl.droidsonroids.jacoco.testkit"
+apply plugin: 'kotlin-kapt'
 
 dependencies {
     implementation gradleApi()
@@ -9,7 +11,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 
     implementation "com.brunodles:autoplugin-annotation:1.1.0"
-    apt "com.brunodles:autoplugin-processor:1.1.0"
+    annotationProcessor "com.brunodles:autoplugin-processor:1.1.0"
     kapt "com.brunodles:autoplugin-processor:1.1.0"
 
     testImplementation 'junit:junit:4.12'
