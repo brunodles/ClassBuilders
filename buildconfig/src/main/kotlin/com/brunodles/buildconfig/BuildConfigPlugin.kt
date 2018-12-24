@@ -1,6 +1,7 @@
 package com.brunodles.buildconfig
 
 import com.brunodles.auto.gradleplugin.AutoPlugin
+import org.gradle.api.GradleException
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.api.plugins.JavaPluginConvention
@@ -25,8 +26,12 @@ open class BuildConfigPlugin : Plugin<Project> {
 
     override fun apply(project: Project) {
         registerSourceSet(project)
-        createTask(project)
-        createExtension(project)
+        try {
+            createTask(project)
+            createExtension(project)
+        } catch (e: Exception) {
+            throw GradleException("Failed to find java or koltin plugin in this project", e)
+        }
     }
 
     private fun registerSourceSet(project: Project) {
